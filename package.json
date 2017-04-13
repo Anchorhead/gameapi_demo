@@ -1,0 +1,23 @@
+{
+  "name": "gameapi_demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anchorhead/gameapi_demo.git"
+  },
+  "author": "Kevin Cipolla",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anchorhead/gameapi_demo/issues"
+  },
+  "homepage": "https://github.com/Anchorhead/gameapi_demo#readme",
+  "dependencies": {
+    "express": "^4.15.2",
+    "mongoose": "^4.9.4"
+  }
+}
