@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const gameSchema = new Schema({
+    id_num: Number,
     title: String,
     developer: String,
     publisher: String,
@@ -11,15 +12,17 @@ const gameSchema = new Schema({
 });
 
 const developerSchema = new Schema({
+    id_num: Number,
     name: String,
     location_country: String,
     released_games: Array
 });
 
 const publisherSchema = new Schema({
+    id_num: Number,
     name: String,
     location_country: String,
-    published_games: String
+    published_games: Array
 });
 
 export const Game = mongoose.model('Game', gameSchema);
