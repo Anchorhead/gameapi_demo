@@ -1,0 +1,3 @@
+{
+    "DBHost": "mongodb://localhost/game_api_test"
+}
