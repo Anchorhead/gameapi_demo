@@ -3,28 +3,40 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const config = require('config'); 
-const DEV_PORT = 6000; //Port for development, need to configure this more properly for production
-import { Game, Developer, Publisher } from 'datamodels';
+const DEV_PORT = 8080; 
+const models = require('./datamodels');
+
+const Game = models.Game;
+const Developer = models.Developer;
+const Publisher = models.Publisher;
 
 const app = express();
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect(config.DBHost);
-
+//mongoose.connect(config.DBHost);
+mongoose.connect('mongodb://localhost/game_api_test');
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
-app.use(bodyparser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/json'}));
 
+Game.remove({}, (err) => { //REMOVE when app.js starts working!
+    if (err) return handleError(err);
+});
+
+app.get('/', (req, res) => {
+    res.send('Hello, this should be working!');
+});
+
  app.get('/games', (req, res) => {
-    Game.find({}).
-    limit(20).
-    sort({ title: 1 }).
-    select('title developer publisher released_date genre').
-    exec((err, game) => {
+    Game.find({})
+    .limit(20)
+    .sort({ title: 1 })
+    .select('title developer publisher released_date genre')
+    .exec((err, game) => {
         if (err) return handleError(err);
         res.json(game);
     });
@@ -34,12 +46,8 @@ app.use(bodyParser.json({ type: 'application/json'}));
      let newGame = new Game(req.body);
 
      newGame.save((err, game) => {
-         if (err) {
-             res.send(err);
-         }
-         else {
-             res.json({message: "You have successfully added a game to the database", game});
-         }
+        if (err) return handleError(err);
+        res.json({message: "You have successfully added a new game to the database", game});
      });
  });
 
@@ -85,26 +93,51 @@ app.use(bodyParser.json({ type: 'application/json'}));
     });
  });
 
- app.get('/developers/:id_num/location_country', (req, res)  => {
-    Developer.findOne({ 'id_num': req.params.id_num }, 'location_country', (err, developer) => {
+ app.get('/developers/:id/location_country', (req, res)  => {
+    Developer.findOne({ 'id': req.params.id_num }, 'location_country', (err, developer) => {
         if (err) return handleError(err);
         res.json(developer.location_country);
     });
  });
 
- app.get('/developers/:id_num/released_games', (req, res)  => {
-    Developer.findOne({ 'id_num': request.params.id_num }, 'released_games', (err, developer) => {
-        if (err) return handleError(err);
-        res.json(developer.released_games);
-    });
+ app.get('/developers', (req, res) => {
+    Developer.find({})
+        .limit(20)
+        .sort({name: 1})
+        .select('name location_country')
+        .exec((err, developer) => {
+            if (err) return handleError(err);
+            res.json(developer);
+        });
  });
 
- app.get('/developers/all', (req, res) => {
+ app.post('/developers', (req, res) => {
+     let newDeveloper = new Developer(req.body);
 
+     newDeveloper.save((err, developer) => {
+         if (err) return handleError(err);
+         res.json({message: "You have successfully added a new developer to the database", developer});
+     });
  });
 
  app.get('/publishers', (req, res) => {
+    Publisher.find({})
+        .limit(20)
+        .sort({name: 1})
+        .select('name location_country')
+        .exec((err, publisher) => {
+            if (err) return handleError(err);
+            res.json(publisher);
+        });
+ });
 
+ app.post('/publishers', (req, res) => {
+     let newPublisher = new Publisher(req.body);
+
+     newPublisher.save((err, publisher) => {
+         if (err) return handleError(err);
+         res.json({message: "You have successfully added a new publisher to the database", publisher});
+     });
  });
 
  app.get('/publishers/:id_num', (req, res) => {
