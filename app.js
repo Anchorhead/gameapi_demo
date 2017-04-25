@@ -23,10 +23,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/json'}));
 
-Game.remove({}, (err) => { //REMOVE when app.js starts working!
-    if (err) return handleError(err);
-});
-
 app.get('/', (req, res) => {
     res.send('Hello, this should be working!');
 });
@@ -51,50 +47,50 @@ app.get('/', (req, res) => {
      });
  });
 
- app.get('/games', (req, res) => {
-    Game.findOne({ 'id_num': req.query.id }, 'title', (err, game) => {
+ app.get('/games/:id', (req, res) => {
+    Game.findOne({ '_id': req.params.id }, 'title', (err, game) => {
         if (err) return  handleError(err);
         res.json(game.title);
     });
  });
 
- app.get('/games/:id_num/developer', (req, res) => {
-    Game.findOne({ 'id_num': req.params.id_num }, 'developer', (err, game) => {
+ app.get('/games/:id/developer', (req, res) => {
+    Game.findOne({ '_id': req.params.id }, 'developer', (err, game) => {
         if (err) return  handleError(err);
         res.json(game.developer);
     });
  });
 
- app.get('/games/:id_num/publisher', (req, res) => {
-    Game.findOne({ 'id_num': req.params.id_num }, 'publisher', (err, game) => {
+ app.get('/games/:id/publisher', (req, res) => {
+    Game.findOne({ '_id': req.params.id }, 'publisher', (err, game) => {
         if (err) return  handleError(err);
         res.json(game.publisher);
     });
  });
 
- app.get('/games/:id_num/release_date', (req, res) => {
-    Game.findOne({ 'id_num': req.params.id_num }, 'release_date', (err, game) => {
+ app.get('/games/:id/release_date', (req, res) => {
+    Game.findOne({ '_id': req.params.id }, 'release_date', (err, game) => {
         if (err) return  handleError(err);
         res.json(game.release_date);
     });
  });
 
- app.get('/games/:id_num/genre', (req, res) => {
-    Game.findOne({ 'id_num': req.params.id_num }, 'genre', (err, game) => {
+ app.get('/games/:id/genre', (req, res) => {
+    Game.findOne({ '_id': req.params.id }, 'genre', (err, game) => {
         if (err) return  handleError(err);
         res.json(game.genre);
     });
  });
 
- app.get('/developers/:id_num', (req, res)  => {
-    Developer.findOne({ 'id_num': req.params.id_num }, 'name', (err, developer) => {
+ app.get('/developers/:id', (req, res)  => {
+    Developer.findOne({ '_id': req.params.id }, 'name', (err, developer) => {
         if (err) return handleError(err);
         res.json(developer.name);
     });
  });
 
  app.get('/developers/:id/location_country', (req, res)  => {
-    Developer.findOne({ 'id': req.params.id_num }, 'location_country', (err, developer) => {
+    Developer.findOne({ '_id': req.params.id }, 'location_country', (err, developer) => {
         if (err) return handleError(err);
         res.json(developer.location_country);
     });
@@ -140,24 +136,17 @@ app.get('/', (req, res) => {
      });
  });
 
- app.get('/publishers/:id_num', (req, res) => {
-    Publisher.findOne({ 'id_num': req.params.id_num }, 'name', (err, publisher) => {
+ app.get('/publishers/:id', (req, res) => {
+    Publisher.findOne({ '_id': req.params.id }, 'name', (err, publisher) => {
         if (err) return handleError(err);
         res.json(publisher.name);
     });
  });
 
- app.get('/publishers/:id_num/location_country', (req, res) => {
-    Publisher.findOne({ 'id_num': req.params.id_num }, 'location_country', (err, publisher) => {
+ app.get('/publishers/:id/location_country', (req, res) => {
+    Publisher.findOne({ '_id': req.params.id }, 'location_country', (err, publisher) => {
         if (err) return handleError(err);
         res.json(publisher.location_country);
-    });
- });
-
- app.get('/publishers/:id_num/published_games', (req, res) => {
-    Publisher.findOne({ 'id_num': req.params.id_num }, 'published_games', (err, publisher) => {
-        if (err) return handleError(err);
-        res.json(publisher.published_games);
     });
  });
 
