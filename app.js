@@ -2,8 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const config = require('config'); 
-const DEV_PORT = 8080; 
+const config = require('config');  
 const models = require('./datamodels');
 
 const Game = models.Game;
@@ -14,8 +13,11 @@ const app = express();
 
 mongoose.Promise = global.Promise;
 
+app.set('port', (process.env.PORT || 8080));
+
 //mongoose.connect(config.DBHost);
-mongoose.connect('mongodb://localhost/game_api_test');
+//use this URL with Heroku, need to add proper config for DB later
+mongoose.connect('mongodb://heroku_drxlll71:b0vs6l0dmgv41pntb7e9ihnqi5@ds125481.mlab.com:25481/heroku_drxlll71');
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
@@ -150,8 +152,9 @@ app.get('/', (req, res) => {
     });
  });
 
- app.listen(DEV_PORT);
- console.log("Listening on port: %s", DEV_PORT);
+ app.listen(app.get('port'), () => {
+     console.log("Listening on port: %s", app.get('port'));
+ });
 
  module.exports = app;
 

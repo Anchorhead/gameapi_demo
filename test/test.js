@@ -1,5 +1,5 @@
-//process.env.NODE_ENV = 'test';
-//env vars not working currently, NEED TO FIX, TODO!!
+process.env.NODE_ENV = 'test';
+
 
 const mongoose = require('mongoose');
 const models = require('../datamodels');
