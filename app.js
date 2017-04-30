@@ -70,10 +70,10 @@ app.get('/', (req, res) => {
     });
  });
 
- app.get('/games/:id/release_date', (req, res) => {
-    Game.findOne({ '_id': req.params.id }, 'release_date', (err, game) => {
+ app.get('/games/:id/release_year', (req, res) => {
+    Game.findOne({ '_id': req.params.id }, 'release_year', (err, game) => {
         if (err) return  handleError(err);
-        res.json(game.release_date);
+        res.json(game.release_year);
     });
  });
 
