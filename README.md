@@ -2,6 +2,8 @@
 
 A simple REST API for accessing information on video games, developers, and publishers
 
+A current demo of this application is hosted on Heroku at https://pure-bastion-77662.herokuapp.com/
+
 Can submit data via POST requests to /games, /developers, or /publishers respectively.
 
 Mongoose Schemas for games, developers, and publishers are defined in datamodels.js
